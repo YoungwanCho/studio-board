@@ -39,7 +39,7 @@ router.get("/pasing/:cur", function (req, res) {
         var endPage = (startPage + page_list_size) - 1;
 
         console.log('[0] curPage : ' + curPage + ' | [1] page_list_size : ' + page_list_size + ' | [2] page_size : ' + page_size + ' | [3] totalPage : ' + totalPage + ' | [4] totalSet : ' + totalSet + ' | [5] curSet : ' + curSet + ' | [6] startPage : ' + startPage + ' | [7] endPage : ' + endPage);
-        
+
         if (curPage < 0) {
             no = 0;
         } else {
@@ -78,6 +78,24 @@ router.get("/pasing/:cur", function (req, res) {
         });
     });
 });
+
+router.get("/insert", function (req, res) {
+    console.log("글쓰기");
+    fs.readFile('./html/insert.html', 'utf-8', function (error, data) {
+        res.send(data);
+    });
+});
+
+router.post("/insert", function (req, res) {
+    console.log("삽입 포스트 데이터 진행")
+    var body = req.body;
+    console.log('[0] id : ' + body.id + ' | [1] title : ' + body.title + ' | [2] writer : ' + body.writer + ' | description : ' + body.description);
+    console.log();
+    getConnection().query('insert into Contents(id, title, writer, description) values (?,?,?,?)', [body.id, body.title, body.writer, body.description], function () {
+        //응답
+        res.redirect('/main');
+    })
+})
 
 router.get("/main", function (req, res) {
     console.log("main");
