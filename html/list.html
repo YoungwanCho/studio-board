@@ -12,7 +12,7 @@
     <body>
         <div class="container">
             <h2>개발실 게시판</h2>
-            <a href="/insert">글쓰기</a>
+            <a href="/board/insert">글쓰기</a>
             <br>
             <br>
 
@@ -31,7 +31,7 @@
                                 <%= item.id %>
                             </td>
                             <td>
-                                <a href='/detail/<%= item.id %>'><%= item.title %></a>
+                                <a href='/board/detail/<%= item.id %>'><%= item.title %></a>
                             </td>
                             <td>
                                 <%= item.writer %>
@@ -60,7 +60,7 @@
 
             <% if(curSet > 1) { %>
                 <li value=(startPage-1) class="previous">
-                    <a href='/pasing/<%= (startPage - 1) %>'>이전페이지</a>
+                    <a href='/board/pasing/<%= (startPage - 1) %>'>이전페이지</a>
                 </li>
             <% } %>
 
@@ -69,14 +69,14 @@
                 
                 if(i==curPage){ %>
                     <li value=<% i %> class=''>
-                        <a href='/pasing/<%= i %>'>
+                        <a href='/board/pasing/<%= i %>'>
                             <%= i %>
                         </a>
                     </li>
                 <% }else{ %>
 
                     <li value=<%=i %> class='active'>
-                        <a href='/pasing/<%= i %>'>
+                        <a href='/board/pasing/<%= i %>'>
                             <%= i %>
                         </a>
                     </li>
@@ -85,7 +85,7 @@
 
             <% if(curSet < totalSet) { %>
                 <li value=( endPage + 1) class="next">
-                    <a href='/pasing/<%= ( endPage + 1) %>'>다음페이지</a>
+                    <a href='/board/pasing/<%= ( endPage + 1) %>'>다음페이지</a>
                 </li>
             <% } %>
             </ul>

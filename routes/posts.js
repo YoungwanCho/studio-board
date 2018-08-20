@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 router.use(bodyParser.urlencoded({ extended: false }));
 
-router.get("/pasing/:cur", function (req, res) {
+router.get("/board/pasing/:cur", function (req, res) {
 
     var max_size_view_page = 10; // 한번에 보여줄 수 있는 최대 페이지 목록 수
     var max_size_view_content = 10; // 한 페이지에서 보여줄 수 있는 최대 게시글 수
@@ -71,23 +71,23 @@ router.get("/pasing/:cur", function (req, res) {
     });
 });
 
-router.get("/insert", function (req, res) {
+router.get("/board/insert", function (req, res) {
     console.log("글쓰기");
     fs.readFile('./html/insert.html', 'utf-8', function (error, data) {
         res.send(data);
     });
 });
 
-router.post("/insert", function (req, res) {
+router.post("/board/insert", function (req, res) {
     console.log("삽입 포스트 데이터 진행")
     var body = req.body;
     getConnection().query('insert into Contents(title, writer, description) values (?,?,?)', [body.title, body.writer, body.description], function () {
         //응답
-        res.redirect('/main');
+        res.redirect('/board');
     })
 })
 
-router.get("/detail/:id", function (req, res) {
+router.get("/board/detail/:id", function (req, res) {
     fs.readFile('./html/detail.html', 'utf-8', function (error, data) {
         getConnection().query('select * from Contents where id = ?', [req.params.id], function (error, result) {
             res.send(ejs.render(data, {
@@ -97,9 +97,9 @@ router.get("/detail/:id", function (req, res) {
     });
 });
 
-router.get("/main", function (req, res) {
+router.get("/board", function (req, res) {
     console.log("main");
-    res.redirect('/pasing/' + 1)
+    res.redirect('/board/pasing/' + 1)
 });
 
 var pool = mysql.createPool({
