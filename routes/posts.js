@@ -91,11 +91,21 @@ router.post("/insert", function (req, res) {
     var body = req.body;
     console.log('[0] id : ' + body.id + ' | [1] title : ' + body.title + ' | [2] writer : ' + body.writer + ' | description : ' + body.description);
     console.log();
-    getConnection().query('insert into Contents(id, title, writer, description) values (?,?,?,?)', [body.id, body.title, body.writer, body.description], function () {
+    getConnection().query('insert into Contents(title, writer, description) values (?,?,?)', [body.title, body.writer, body.description], function () {
         //응답
         res.redirect('/main');
     })
 })
+
+router.get("/detail/:id", function (req, res) {
+    fs.readFile('./html/detail.html', 'utf-8', function (error, data) {
+        getConnection().query('select * from Contents where id = ?', [req.params.id], function (error, result) {
+            res.send(ejs.render(data, {
+                data: result[0]
+            }));
+        });
+    });
+});
 
 router.get("/main", function (req, res) {
     console.log("main");

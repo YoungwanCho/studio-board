@@ -22,8 +22,6 @@
                         <th>번호</th>
                         <th>제목</th>
                         <th>작성자</th>
-                        <th>수정</th>
-                        <th>삭제</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,16 +31,10 @@
                                 <%= item.id %>
                             </td>
                             <td>
-                                <a><%=item.title%></a>
+                                <a href='/detail/<%= item.id %>'><%= item.title %></a>
                             </td>
                             <td>
                                 <%= item.writer %>
-                            </td>
-                            <td>
-                                <a href='/delete/<%= item.id %>'>삭제</a>
-                            </td>
-                            <td>
-                                <a href='/edit/<%= item.id %>'>수정</a>
                             </td>
                         </tr>
                 <% }) %>
