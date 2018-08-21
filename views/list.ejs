@@ -1,54 +1,55 @@
 <!DOCTYPE html>
 <html lang="ko">
-    <head>
-        <title>연구개발실-게시판</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    </head>
 
-    <body>
-        <div class="container">
-            <h2>개발실 게시판</h2>
-            <a href="/board/insert">글쓰기</a>
-            <br>
-            <br>
+<head>
+  <title>연구개발실-게시판</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
 
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>번호</th>
-                        <th>제목</th>
-                        <th>작성자</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% data.forEach(function(item, index) { %>
-                        <tr>
-                            <td>
-                                <%= item.id %>
-                            </td>
-                            <td>
-                                <a href='/board/detail/<%= item.id %>'><%= item.title %></a>
-                            </td>
-                            <td>
-                                <%= item.writer %>
-                            </td>
-                        </tr>
-                <% }) %>
-                </tbody>
-            </table>
-        </div>
+<body>
+  <div class="container">
+    <h2>개발실 게시판</h2>
+    <a href="/board/insert">글쓰기</a>
+    <br>
+    <br>
 
-        <br>
-        <br>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>번호</th>
+          <th>제목</th>
+          <th>작성자</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% data.forEach(function(item, index) { %>
+          <tr>
+            <td>
+              <%= item.id %>
+            </td>
+            <td>
+              <a href='/board/detail/<%= item.id %>'><%= item.title %></a>
+            </td>
+            <td>
+              <%= item.writer %>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
 
-        <div class="container">
-            <ul class="pager">
+  <br>
+  <br>
 
-    <% 
+  <div class="container">
+    <ul class="pager">
+
+      <%
     var curSet = pasing.curSet
     var endPage = pasing.endPage
     var startPage = pasing.startPage
@@ -58,40 +59,40 @@
     var curPage = pasing.curPage
     %>
 
-            <% if(curSet > 1) { %>
-                <li value=(startPage-1) class="previous">
-                    <a href='/board/pasing/<%= (startPage - 1) %>'>이전페이지</a>
-                </li>
-            <% } %>
+        <% if(curSet > 1) { %>
+          <li value=(startPage-1) class="previous">
+            <a href='/board/pasing/<%= (startPage - 1) %>'>이전페이지</a>
+          </li>
+          <% } %>
 
             <%  for(var i = startPage; i <= endPage; i++) {
                 if(i>totalPage) {break;}
-                
+
                 if(i==curPage){ %>
-                    <li value=<% i %> class=''>
-                        <a href='/board/pasing/<%= i %>'>
-                            <%= i %>
-                        </a>
-                    </li>
-                <% }else{ %>
+              <li value=<% i %> class=''>
+                <a href='/board/pasing/<%= i %>'>
+                  <%= i %>
+                </a>
+              </li>
+              <% }else{ %>
 
-                    <li value=<%=i %> class='active'>
-                        <a href='/board/pasing/<%= i %>'>
-                            <%= i %>
-                        </a>
-                    </li>
-                <% } %>
-            <% } %>
-
-            <% if(curSet < totalSet) { %>
-                <li value=( endPage + 1) class="next">
-                    <a href='/board/pasing/<%= ( endPage + 1) %>'>다음페이지</a>
+                <li value=<%=i %> class='active'>
+                  <a href='/board/pasing/<%= i %>'>
+                    <%= i %>
+                  </a>
                 </li>
-            <% } %>
-            </ul>
-        </div>
-        <br>
-        <br>
-    </body>
+                <% } %>
+                  <% } %>
+
+                    <% if(curSet < totalSet) { %>
+                      <li value=( endPage + 1) class="next">
+                        <a href='/board/pasing/<%= ( endPage + 1) %>'>다음페이지</a>
+                      </li>
+                      <% } %>
+    </ul>
+  </div>
+  <br>
+  <br>
+</body>
 
 </html>

@@ -9,11 +9,11 @@ app.set('views', './views');
 
 app.use(morgan('short'));
 app.use(express.static('./public'));
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 var productRouter = require('./routes/posts.js');
 app.use(productRouter);
 
-app.listen(3000, function() {
-    console.log('Server On');
+app.listen(3000, function () {
+  console.log('Server On');
 });
