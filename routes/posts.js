@@ -74,7 +74,7 @@ router.post("/board/insert", function (req, res) {
     })
 })
 
-router.get("/board/detail/:id", function (req, res) {\
+router.get("/board/detail/:id", function (req, res) {
     getConnection().query('select * from Contents where id = ?', [req.params.id], function (error, result) {
         res.render('detail', { data: result[0] });
     });
