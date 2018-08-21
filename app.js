@@ -1,8 +1,11 @@
 var express = require('express');
-var app = express();
-var morgan = require('morgan');
-var mysql = require('mysql');
 var bodyParser = require('body-parser');
+var morgan = require('morgan');
+
+var app = express();
+
+app.set('view engine', 'ejs');
+app.set('views', './views');
 
 app.use(morgan('short'));
 app.use(express.static('./public'));

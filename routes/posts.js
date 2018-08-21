@@ -49,33 +49,20 @@ router.get("/board/pasing/:cur", function (req, res) {
             "endPage": endPage
         };
 
-        fs.readFile('./html/list.html', 'utf-8', function (error, data) {
+        var queryString = 'select * from Contents order by id desc limit ?,?';
+        getConnection().query(queryString, [no, max_size_view_content], function (error, result) {
             if (error) {
-                console.log("ejs오류" + error);
+                console.log("페이징 에러");
                 return;
             }
 
-            var queryString = 'select * from Contents order by id desc limit ?,?';
-            getConnection().query(queryString, [no, max_size_view_content], function (error, result) {
-                if (error) {
-                    console.log("페이징 에러");
-                    return;
-                }
-                res.send(ejs.render(data, {
-                    data: result,
-                    pasing: result2
-                }
-                ));
-            });
+            res.render('list', { data: result, pasing: result2 });
         });
     });
 });
 
 router.get("/board/insert", function (req, res) {
-    console.log("글쓰기");
-    fs.readFile('./html/insert.html', 'utf-8', function (error, data) {
-        res.send(data);
-    });
+    res.render('insert');
 });
 
 router.post("/board/insert", function (req, res) {
@@ -87,13 +74,9 @@ router.post("/board/insert", function (req, res) {
     })
 })
 
-router.get("/board/detail/:id", function (req, res) {
-    fs.readFile('./html/detail.html', 'utf-8', function (error, data) {
-        getConnection().query('select * from Contents where id = ?', [req.params.id], function (error, result) {
-            res.send(ejs.render(data, {
-                data: result[0]
-            }));
-        });
+router.get("/board/detail/:id", function (req, res) {\
+    getConnection().query('select * from Contents where id = ?', [req.params.id], function (error, result) {
+        res.render('detail', { data: result[0] });
     });
 });
 
