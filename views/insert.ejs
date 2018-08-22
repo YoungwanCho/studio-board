@@ -13,7 +13,7 @@
 <body>
   <div class="container">
     <h2>게시글 작성</h2>
-    <form action="insert" method="POST">
+    <form action="insert" method="POST" name="form" onsubmit="return inputCheck()">
       <div class="form-group">
         <label for="title">제목</label>
         <input type="text" class="form-control" id="title" name="title">
@@ -30,5 +30,23 @@
     </form>
   </div>
 </body>
+
+<script>
+  function inputCheck() {
+    if (form.title.value == "") {
+      alert("제목을 입력해 주세요.");
+      return false;
+    }
+    if (form.writer.value == "") {
+      alert("작성자를 입력해 주세요.");
+      return false;
+    }
+    if (form.description.value == "") {
+      alert("내용을 입력해 주세요.");
+      return false;
+    }
+    return true;
+  }
+</script>
 
 </html>
