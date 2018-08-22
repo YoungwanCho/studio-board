@@ -76,6 +76,9 @@ router.post("/board/insert", function (req, res) {
 
 router.get("/board/detail/:id", function (req, res) {
   getConnection().query('select * from Contents where id = ?', [req.params.id], function (error, result) {
+    var text = result[0].description;
+    text = text.replace(/(?:\n|\r\n)/g, '<br>');
+    result[0].description = text;
     res.render('detail', { data: result[0] });
   });
 });
