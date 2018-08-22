@@ -13,7 +13,6 @@
 <body>
   <div class="container">
     <h2>개발실 게시판</h2>
-    <a href="/board/insert">글쓰기</a>
     <br>
     <br>
 
@@ -41,8 +40,9 @@
           <% }) %>
       </tbody>
     </table>
+    <input type="button" class="btn btn-success" style="float:right;" value="글쓰기" onclick="window.location.href='/board/insert'" />
   </div>
-
+  
   <br>
   <br>
 
