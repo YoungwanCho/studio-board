@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
-// var fs = require('fs');
-// var ejs = require('ejs');
 var bodyParser = require('body-parser');
 
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -66,13 +64,31 @@ router.get("/board/insert", function (req, res) {
 });
 
 router.post("/board/insert", function (req, res) {
-  console.log("삽입 포스트 데이터 진행")
   var body = req.body;
   getConnection().query('insert into Contents(title, writer, description) values (?,?,?)', [body.title, body.writer, body.description], function () {
     //응답
     res.redirect('/board');
-  })
-})
+  });
+});
+
+router.get("/board/edit/:id", function (req, res) {
+  getConnection().query('select * from Contents where id = ?', [req.params.id], function (error, result) {
+    res.render('edit', { data: result[0] });
+  });
+});
+
+router.post("/board/edit/:id", function (req, res) {
+  getConnection().query('update Contents set title = ?, writer = ?, description = ? where id = ?',
+    [req.body.title, req.body.writer, req.body.description, req.params.id], function () {
+      res.redirect('/board');
+    });
+});
+
+router.get("/board/delete/:id", function (req, res) {
+  getConnection().query('delete from Contents where id = ?', [req.params.id], function () {
+    res.redirect('/board');
+  });
+});
 
 router.get("/board/detail/:id", function (req, res) {
   getConnection().query('select * from Contents where id = ?', [req.params.id], function (error, result) {
@@ -84,7 +100,6 @@ router.get("/board/detail/:id", function (req, res) {
 });
 
 router.get("/board", function (req, res) {
-  console.log("main");
   res.redirect('/board/pasing/' + 1)
 });
 
@@ -94,7 +109,7 @@ var pool = mysql.createPool({
   user: 'root',
   database: 'studio_board',
   password: '1234'
-})
+});
 
 function getConnection() {
   return pool
