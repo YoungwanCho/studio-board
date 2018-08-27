@@ -34,4 +34,4 @@
 - 테이블은 이름은 'Contents'입니다.
 
 #### 웹브라우저
-[studio-board]:(http://localhost:3000/board)
+- [studio-board](http://localhost:3000/board)
