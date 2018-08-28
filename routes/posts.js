@@ -23,7 +23,10 @@ router.get("/board/pasing/:cur", function (req, res) {
       total_size_content = 0;
     }
 
-    var totalPage = parseInt(total_size_content / max_size_view_content) + 1; // 필요한 전체 페이지 수
+    var totalPage = parseInt(total_size_content / max_size_view_content); // 필요한 전체 페이지 수
+    if((total_size_content % max_size_view_content) != 0) {
+      totalPage++;
+    }
     var totalSet = parseInt(totalPage / max_size_view_page) + 1; // 필요한 전체 세트 수
     var curSet = parseInt(curPage / max_size_view_page) + 1;
     var startPage = ((curSet - 1) * max_size_view_page) + 1;
