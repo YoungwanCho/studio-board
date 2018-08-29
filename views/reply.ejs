@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <title>답글</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min/js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h2>답글 작성</h2>
+    <form method="POST" name="form" onsubmit="return inputCheck()">
+      <div class="form-group">
+        <label for="title">제목</label>
+        <input type="text" class="form-control" id="title" name="title" value="<%= data.title%>">
+      </div>
+      <div class="form-group">
+        <label for="writer">작성자</label>
+        <input type="text" class="form-control" id="writer" name="writer">
+      </div>
+      <div class="form-group">
+        <label for="description">내용</label>
+        <textarea type="text" class="form-control" id="description" name="description" rows="20" style="resize:none;"></textarea>
+      </div>
+      <input type="button" class="btn btn-default" style="float:left;" value="취소" onclick="window.history.back();" />
+      <button type="submit" class="btn btn-success" style="float:right;">등록</button>
+    </form>
+  </div>
+</body>
+
+<script>
+  function inputCheck() {
+    if (form.title.value == "") {
+      alert("제목을 입력해 주세요.");
+      return false;
+    }
+    if (form.writer.value == "") {
+      alert("작성자를 입력해 주세요.");
+      return false;
+    }
+    if (form.description.value == "") {
+      alert("내용을 입력해 주세요.");
+      return false;
+    }
+    return true;
+  }
+</script>
+
+</html>

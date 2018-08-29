@@ -26,10 +26,13 @@
         <div id="description" class="panel-body"></div>
       </div>
       <br>
-      <input type="button" class="btn btn-success" style="float:right;" value="목록" onclick="window.history.back();" />
+      <input type="button" class="btn btn-success" style="float:right; margin-left:1%" value="목록" onclick="window.history.back();"
+      />
+      <input type="button" class="btn btn-primary" style="float:right; margin-left:1%" value="답글" onclick="parent.location.href='/board/reply/'+'<%=data.id%>'"
+      />
       <input type="button" class="btn btn-danger" style="float:left; margin-right:1%" value="삭제" onclick="parent.location.href='/board/delete/'+'<%=data.id%>'"
       />
-      <input type="button" class="btn btn-info" style="float:left;" value="수정" onclick="parent.location.href='/board/edit/'+'<%=data.id%>'"
+      <input type="button" class="btn btn-info" style="float:left; margin-right:1%" value="수정" onclick="parent.location.href='/board/edit/'+'<%=data.id%>'"
       />
     </div>
   </div>

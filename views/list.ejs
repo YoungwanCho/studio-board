@@ -28,7 +28,12 @@
               <%= item.id %>
             </td>
             <td>
-              <a style="display:block;width:100%;height:100%;" href='/board/detail/<%= item.id %>'><%= item.title %></a>
+              <a style="display:block;width:100%;height:100%;" href='/board/detail/<%= item.id %>'>
+                <% for(var i=0; i<item.depth; i++) {%>
+                  <%= (i == 0) ? '┕RE:' : 'RE:' %>
+                    <% } %>
+                      <%= item.title %>
+              </a>
             </td>
             <td>
               <%= item.writer %>
