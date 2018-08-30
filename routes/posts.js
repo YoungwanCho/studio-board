@@ -118,7 +118,7 @@ router.post("/board/reply/:id", function (req, res) {
           });
       });
     } else {
-      getConnection().query('update Contents grpord = grpord + 1 where grpid = ? and grpord > ?', [origin.grpid, origin.grpord], function () {
+      getConnection().query('update Contents set grpord = grpord + 1 where grpid = ? and grpord > ?', [origin.grpid, origin.grpord], function () {
         var groupid = origin.grpid;
         var grouporder = origin.grpord + 1;
         var depth = origin.depth + 1;
