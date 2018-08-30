@@ -154,9 +154,22 @@ router.get("/board/detail/:id", function (req, res) {
     var text = result[0].description;
     text = text.replace(/(?:\n|\r\n)/g, '<br>');
     result[0].description = text;
-    res.render('detail', { data: result[0] });
+
+    getConnection().query('select * from Comments where grpid = ?', [result[0].id], function(error2, result2) {
+      var comments = result2;
+      console.log('commentCount : ' + comments.length);
+      res.render('detail', { data: result[0], comment: comments });
+    })
   });
 });
+
+router.post("/board/detail/comment/:id", function(req, res) {
+  console.log(req.params.id + " : " + req.body.writer + " : " + req.body.description);
+  getConnection().query('insert into Comments(grpid, writer, description) values (?,?,?)',
+  [req.params.id, req.body.writer, req.body.description], function () {
+    res.redirect('/board/detail/' + req.params.id);
+  });
+})
 
 router.get("/board", function (req, res) {
   res.redirect('/board/pasing/' + 1)
