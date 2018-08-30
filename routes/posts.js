@@ -144,7 +144,7 @@ router.post("/board/edit/:id", function (req, res) {
 });
 
 router.get("/board/delete/:id", function (req, res) {
-  getConnection().query('delete from Contents where id = ?', [req.params.id], function () {
+  getConnection().query('update Contents set title = ?, writer = ?, description = ? where id = ?', ["", "", "", req.params.id], function () {
     res.redirect('/board');
   });
 });
