@@ -75,19 +75,21 @@ router.post("/board/insert", function (req, res) {
       return;
     }
 
+    var parentid = 0;
     var groupid = 0;
     var groupord = 0;
     var depth = 0;
 
     var groupid = result[0]['max(id)'];
-    
+
     if (!groupid) {
       groupid = 0;
     }
-    
+
     groupid++;
-    getConnection().query('insert into Contents(grpid, grpord, depth, title, writer, description) values (?,?,?,?,?,?)',
-      [groupid, groupord, depth, req.body.title, req.body.writer, req.body.description], function () {
+    parentid = groupid;
+    getConnection().query('insert into Contents(parentid, grpid, grpord, depth, title, writer, description) values (?,?,?,?,?,?,?)',
+      [parentid, groupid, groupord, depth, req.body.title, req.body.writer, req.body.description], function () {
         res.redirect('/board');
       });
   });
@@ -102,28 +104,37 @@ router.get("/board/reply/:id", function (req, res) {
 router.post("/board/reply/:id", function (req, res) {
   getConnection().query('select * from Contents where id = ?', [req.params.id], function (error, result) {
     var origin = result[0];
-
-    if (origin.depth == 0) {
+    // 원글의 답글을 다는 경우
+    if (origin.id == origin.parentid) {
       getConnection().query('select max(grpord) from Contents where grpid = ?', [origin.grpid], function (error, result) {
         var maxgrpord = result[0]['max(grpord)'];
         if (!maxgrpord) {
           maxgrpord = 0;
         }
+        var parentid = origin.id;
         var groupid = origin.grpid;
         var grouporder = maxgrpord + 1;
         var depth = origin.depth + 1;
-        getConnection().query('insert into Contents(grpid, grpord, depth, title, writer, description) values (?,?,?,?,?,?)',
-          [groupid, grouporder, depth, req.body.title, req.body.writer, req.body.description], function () {
+        getConnection().query('insert into Contents(parentid, grpid, grpord, depth, title, writer, description) values (?,?,?,?,?,?,?)',
+          [parentid, groupid, grouporder, depth, req.body.title, req.body.writer, req.body.description], function () {
             res.redirect('/board');
           });
       });
+    //답글의 답글을 다는 경우
     } else {
-      getConnection().query('update Contents set grpord = grpord + 1 where grpid = ? and grpord > ?', [origin.grpid, origin.grpord], function () {
-        var groupid = origin.grpid;
-        var grouporder = origin.grpord + 1;
-        var depth = origin.depth + 1;
-        getConnection().query('insert into Contents(grpid, grpord, depth, title, writer, description) values (?,?,?,?,?,?)', [groupid, grouporder, depth, req.body.title, req.body.writer, req.body.description], function () {
-          res.redirect('/board');
+      getConnection().query('select max(grpord) from Contents where parentid = ?', [origin.id], function (error, result) {
+        var maxgrpord = result[0]['max(grpord)'];
+        if (!maxgrpord) {
+          maxgrpord = 0;
+        }
+        getConnection().query('update Contents set grpord = grpord + 1 where grpid = ? and grpord > ?', [origin.grpid, maxgrpord], function () {
+          var parentid = origin.id;
+          var groupid = origin.grpid;
+          var grouporder = origin.grpord + 1;
+          var depth = origin.depth + 1;
+          getConnection().query('insert into Contents(parentid, grpid, grpord, depth, title, writer, description) values (?,?,?,?,?,?,?)', [parentid, groupid, grouporder, depth, req.body.title, req.body.writer, req.body.description], function () {
+            res.redirect('/board');
+          });
         });
       });
     }
@@ -155,20 +166,18 @@ router.get("/board/detail/:id", function (req, res) {
     text = text.replace(/(?:\n|\r\n)/g, '<br>');
     result[0].description = text;
 
-    getConnection().query('select * from Comments where grpid = ?', [result[0].id], function(error2, result2) {
+    getConnection().query('select * from Comments where parentid = ?', [result[0].id], function (error2, result2) {
       var comments = result2;
-      console.log('commentCount : ' + comments.length);
       res.render('detail', { data: result[0], comment: comments });
     })
   });
 });
 
-router.post("/board/detail/comment/:id", function(req, res) {
-  console.log(req.params.id + " : " + req.body.writer + " : " + req.body.description);
-  getConnection().query('insert into Comments(grpid, writer, description) values (?,?,?)',
-  [req.params.id, req.body.writer, req.body.description], function () {
-    res.redirect('/board/detail/' + req.params.id);
-  });
+router.post("/board/detail/comment/:id", function (req, res) {
+  getConnection().query('insert into Comments(parentid, writer, description) values (?,?,?)',
+    [req.params.id, req.body.writer, req.body.description], function () {
+      res.redirect('/board/detail/' + req.params.id);
+    });
 })
 
 router.get("/board", function (req, res) {
