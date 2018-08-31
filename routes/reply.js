@@ -32,17 +32,17 @@ module.exports = function (app) {
               res.redirect('/board');
             });
         });
-      //답글의 답글을 다는 경우
+        //답글의 답글을 다는 경우
       } else {
         database.getConnection().query('select max(grpord) from Contents where parentid = ?', [origin.id], function (error, result) {
           var maxgrpord = result[0]['max(grpord)'];
           if (!maxgrpord) {
-            maxgrpord = 0;
+            maxgrpord = origin.grpord;
           }
           database.getConnection().query('update Contents set grpord = grpord + 1 where grpid = ? and grpord > ?', [origin.grpid, maxgrpord], function () {
             var parentid = origin.id;
             var groupid = origin.grpid;
-            var grouporder = origin.grpord + 1;
+            var grouporder = maxgrpord + 1;
             var depth = origin.depth + 1;
             database.getConnection().query('insert into Contents(parentid, grpid, grpord, depth, title, writer, description) values (?,?,?,?,?,?,?)', [parentid, groupid, grouporder, depth, req.body.title, req.body.writer, req.body.description], function () {
               res.redirect('/board');
