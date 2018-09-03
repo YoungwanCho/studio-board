@@ -26,47 +26,58 @@
         <div id="description" class="panel-body"></div>
       </div>
       <br>
-      <input type="button" class="btn btn-success" style="float:right; margin-left:1%" value="목록" onclick="parent.location.href='/board'"/>
-      <input type="button" class="btn btn-primary" style="float:right; margin-left:1%" value="답글" onclick="parent.location.href='/board/reply/'+'<%=data.id%>'"/>
-      <input type="button" class="btn btn-danger" style="float:left; margin-right:1%" value="삭제" onclick="parent.location.href='/board/delete/'+'<%=data.id%>'"/>
-      <input type="button" class="btn btn-info" style="float:left; margin-right:1%" value="수정" onclick="parent.location.href='/board/edit/'+'<%=data.id%>'"/>
+      <input type="button" class="btn btn-success" style="float:right; margin-left:1%" value="목록" onclick="parent.location.href='/board'"
+      />
+      <input type="button" class="btn btn-primary" style="float:right; margin-left:1%" value="답글" onclick="parent.location.href='/board/reply/'+'<%=data.id%>'"
+      />
+      <input type="button" class="btn btn-danger" style="float:left; margin-right:1%" value="삭제" onclick="parent.location.href='/board/delete/'+'<%=data.id%>'"
+      />
+      <input type="button" class="btn btn-info" style="float:left; margin-right:1%" value="수정" onclick="parent.location.href='/board/edit/'+'<%=data.id%>'"
+      />
     </div>
     <br>
     <br>
-    <div id="comment">
-      <table class="table">
-        <tbody>
-          <% comment.forEach(function(item, index) { %>
-            <tr>
-              <td style="text-align: left;">
-                <%= item.writer%>
-              </td>
-              <td style="text-align: left;">
-                <%= item.description%>
-              </td>
-            </tr>
-            <% })%>
-        </tbody>
-      </table>
-    </div>
-    <div id="commentInput">
-      <div>
-        <% var actionText = 'comment/' + data.id %>
-          <form action="<%= actionText %>" method="POST" name="form" onsubmit="return inputCheck()">
-            <tr>
-              <td class="form-group">
-                <label for="writer">작성자</label>
-                <input type="text" class="form-control" id="writer" name="writer">
-              </td>
-              <td class="form-group">
-                <label for="description">내용</label>
-                <textarea type="text" class="form-control" id="description" name="description" rows="4" style="resize:none;"></textarea>
-              </td>
-            </tr>
-            <br>
-            <button type="submit" class="btn btn-success" style="float:right;">댓글등록</button>
-          </form>
-      </div>
+    <div>
+      <% var actionText = 'comment/' + data.id %>
+        <form class="form-group" action="<%= actionText %>" method="POST" name="form" onsubmit="return inputCheck()">
+          <table class="table">
+            <thead>
+              <th style="width:30%;">
+                작성자
+              </th>
+              <th class="width:70%;">
+                내용
+              </th>
+              <th style="width:0%;">
+              </th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input class="form-control" type="text" id="writer" name="writer" style="width:100%;">
+                </td>
+                <td>
+                  <input class="form-control" type="text" id="description" name="description" style="width:100%;">
+                </td>
+                <td style="width:8%;">
+                  <button type="submit" class="btn btn-success" style="float:right;">댓글</button>
+                </td>
+              </tr>
+              <% comment.forEach(function(item, index) { %>
+                <tr>
+                  <td>
+                    <%= item.writer%>
+                  </td>
+                  <td>
+                    <%= item.description%>
+                  </td>
+                  <td style="width:0%">
+                  </td>
+                </tr>
+                <% })%>
+            </tbody>
+          </table>
+        </form>
     </div>
   </div>
   </div>
